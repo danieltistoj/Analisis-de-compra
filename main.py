@@ -1,8 +1,10 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 from datetime import datetime
 
 
-df = pd.read_csv("csv/compras2.csv")
+df = pd.read_csv("csv/compras2.csv",index_col=False)
+#print(df)
 #muestra los primeras cinco filas
 
 #df.head()
@@ -27,8 +29,11 @@ df_filtrado["Sub TOTAL"] = df_filtrado["Sub TOTAL"].astype(float)
 
 df_filtrado = df_filtrado.groupby("Fecha").agg({
     "Sub TOTAL":'sum',
-    "Cantidad":'sum'
 })
+ax =plt.gca()
 
+df_filtrado = df_filtrado.rename_axis('fecha').reset_index()
+df_filtrado.plot(kind = 'line', x='fecha',y='Sub TOTAL',color = 'blue', ax= ax)
 
-print(df_filtrado)
+plt.show()
+#print(df_filtrado)
